@@ -1,6 +1,5 @@
 // server.js
 require('dotenv').config();
-console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
 const express = require('express');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
