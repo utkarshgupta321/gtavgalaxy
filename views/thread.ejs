@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title><%= thread.title %></title></head>
+<body>
+  <h1><%= thread.title %></h1>
+  <p><%= thread.content %></p>
+  <hr>
+  <h3>Replies</h3>
+  <% posts.forEach(post => { %>
+    <p><strong><%= post.username %>:</strong> <%= post.content %></p>
+  <% }) %>
+
+  <form method="POST" action="/forum/thread/<%= thread.id %>/post">
+    <textarea name="content" placeholder="Reply here..." required></textarea><br>
+    <button type="submit">Reply</button>
+  </form>
+  <a href="/forum">Back to Forum</a>
+</body>
+</html>
