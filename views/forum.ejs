@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Forum</title></head>
+<body>
+  <h1>Forum Threads</h1>
+  <form method="POST" action="/forum/new">
+    <input name="title" placeholder="Title" required><br>
+    <textarea name="content" placeholder="Content" required></textarea><br>
+    <button type="submit">Create Thread</button>
+  </form>
+  <ul>
+    <% threads.forEach(thread => { %>
+      <li><a href="/forum/thread/<%= thread.id %>"><%= thread.title %></a> by <%= thread.username %></li>
+    <% }) %>
+  </ul>
+  <a href="/logout">Logout</a>
+</body>
+</html>
