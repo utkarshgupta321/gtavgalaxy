@@ -26,8 +26,10 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT,
     created_by INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (thread_id) REFERENCES threads(id),
-    FOREIGN KEY (created_by) REFERENCES users(id)
+    FOREIGN KEY (thread_id)
+        REFERENCES threads (id),
+    FOREIGN KEY (created_by)
+        REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS reset_tokens (
