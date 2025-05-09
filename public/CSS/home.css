@@ -23,7 +23,7 @@ body{
     
 }
 :root{
-    --color-primary: #00CBCC;
+    --color-primary: #1da1a1;
     --color-white: #eaeaea; 
     --color-dark: #333; 
     --color-black: #222; 
@@ -72,7 +72,7 @@ nav{
     z-index: 100;
     display: grid;
     place-items: center;
-    
+    background-color: #70727236;
 }
 .nav-container{
     display: flex;
@@ -104,7 +104,7 @@ nav{
 .logo h3{
     display: block;
     font-size: 15px;
-    color: var(--color-black); 
+    color: var(--color-primary); 
 }
 
 .nav-link li a{
@@ -142,7 +142,7 @@ nav{
 
 .bgColor{
     transition: all 1s;
-    background-color: #00CBCC;
+    background-color: #1da1a1;
     .nav-link a{
         transition: all 1s;
         color: #fff;
@@ -187,7 +187,8 @@ nav{
 .firstSection-left h1{
     font-size: 54px;
     line-height: 1.2;
-    color: var(--color-black); 
+    color: var(--color-primary); 
+    padding-bottom: 2rem;
 }
 .firstSection-left h6{
     font-style: italic;
