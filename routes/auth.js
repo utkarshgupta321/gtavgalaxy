@@ -56,8 +56,8 @@ router.post('/signup', async (req, res) => {
 router.get('/verify', (req, res) => {
   const { token } = req.query;
   connection.query('UPDATE users SET verified = 1 WHERE verify_token = ?', [token], (err) => {
-    if (err) return res.status(500).send('Verification failed');
-    res.send('Email verified. You can now login.');
+    if (err) return res.status(500).sendFile(path.join(__dirname, '../public/verify-failed.html'));
+    res.sendFile(path.join(__dirname, '../public/verify-success.html'));
   });
 });
 
@@ -72,13 +72,22 @@ router.post('/login', (req, res) => {
     if (!results[0].verified) return res.status(403).send('Please verify your email first.');
     req.session.user = results[0];
 
-    if (results[0].is_admin) {
-      console.log('Admin logged in:', results[0]);
-      // Redirect to admin dashboard
-      res.redirect('/admin');
-    } else {
-      res.send('Login successful');
+    const user = results[0];
+    req.session.user = {
+      id: user.id,
+      username: user.username,
+      is_admin: user.is_admin
+    };
+
+    console.log('Session set on login:', req.session.user);
+
+    if (user.is_admin) {
+      console.log('Admin logged in:', user);
+      // Redirect to the admin page (ensure this is the last response)
+      return res.json({ redirect: user.is_admin ? '/admin.html' : '/home.html' });
     }
+
+    res.send('Login successful');
   });
 });
 
@@ -131,29 +140,6 @@ router.post('/reset-password', async (req, res) => {
     }
     
     res.send('Password reset successful. You can now log in.');
-  });
-});
-
-
-
-
-// Admin Protected Route Example
-router.get('/admin', (req, res) => {
-  if (!req.session.user || !req.session.user.is_admin) {
-    return res.status(403).send('Access Denied');
-  }
-  // Fetch users from the database
-  const connection = require('../db'); // Make sure this path is correct
-  connection.query('SELECT id, username, email FROM users', (err, results) => {
-    if (err) {
-      console.error('Error fetching users:', err);
-      return res.status(500).send('Server error');
-    }
-
-    res.render('admin', {
-      username: req.session.user.username,
-      users: results // ✅ This fixes the undefined `users`
-    });
   });
 });
 

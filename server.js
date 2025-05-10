@@ -32,11 +32,13 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: sessionStore
+  store: sessionStore,
+  cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 // Flash
 app.use(flash());
+
 
 // Views
 app.set('view engine', 'ejs');
@@ -50,8 +52,6 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/', require('./routes/auth'));
 app.use('/forum', require('./routes/forum'));
-app.use('/admin', require('./routes/admin'));
-
 
 // Start
 const PORT = process.env.PORT || 3000;

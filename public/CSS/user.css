@@ -27,7 +27,10 @@ body{
   linear-gradient(#09141839, #09141843),
       url("/Images/background_user2.jpg");
   background-size: cover;
-  background-position: center;  
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  overflow: hidden;
   
 }
 
@@ -152,6 +155,19 @@ nav{
     margin-bottom: 20px;
     color: #9ae3ea;
   }
+
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #ffffff;
+  }
+
+  p{
+    margin-left: -15px;
+    margin-bottom: -10px;
+    color: #ffffff;
+    text-align: center;
+  }
   
   /* General Container */
   .container_main {
@@ -162,9 +178,6 @@ nav{
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 0 20px #00f0ff80;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
   }
   
@@ -178,6 +191,7 @@ nav{
     width: 100%;
     max-width: 100vh;
     box-shadow: 0 0 15px rgba(104, 198, 229, 0.7);
+    justify-items: center;
   }
   
   /* Input and Button Styles */
@@ -215,9 +229,13 @@ nav{
   }
   
   /* Links */
-  .container_main a {
+  .container_main a, .form a {
     text-decoration: none;
     color: #ff6600;
+  }
+
+  .verification-form a{
+    padding-top: 20%;
   }
   
   /* Page Layout */
@@ -252,7 +270,7 @@ nav{
     background-color: #00c8d6;
   }
 
-  .container_main .btn {
+  .container_main .btn, .form .btn {
     padding: 12px 20px;
     background-color: #00f0ff;
     color: #000;
@@ -264,7 +282,7 @@ nav{
     cursor: pointer;
   }
 
-  .container_main .btn:hover {
+  .container_main .btn:hover, .form .btn:hover {
     transform: scale(1.05);
     background-color: #00c8d6;
   }

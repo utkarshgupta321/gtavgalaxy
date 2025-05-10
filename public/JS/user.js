@@ -24,15 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const formData = new FormData(loginForm);
         const data = Object.fromEntries(formData);
-  
+    
         const res = await fetch('/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        const text = await res.text();
-        alert(text);
-        if (res.redirected) window.location.href = res.url;
+    
+        if (res.ok) {
+          const response = await res.json();
+          window.location.href = response.redirect;  // ✅ Redirect based on role
+        } else {
+          const errorText = await res.text();
+          alert(errorText);  // ❗ Only alert errors
+        }
       });
     }
   
@@ -69,4 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+  
   
