@@ -1,10 +1,10 @@
 // server.js
 require('dotenv').config();
+console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
 const express = require('express');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const flash = require('connect-flash');
-const csrf = require('csurf');
 const helmet = require('helmet');
 const path = require('path');
 const app = express();
@@ -14,6 +14,12 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Prevent running with bad configuration
+if (!process.env.SESSION_SECRET) {
+  console.error("SESSION_SECRET is not set!");
+  process.exit(1); 
+}
 
 // Session setup
 const sessionStore = new MySQLStore({
@@ -26,22 +32,28 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: sessionStore
+  store: sessionStore,
+  cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-// CSRF protection and flash
-app.use(csrf());
+// Flash
 app.use(flash());
+
 
 // Views
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Default route to serve index.html from public/
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'home.htm'));
+});
+
 // Routes
 app.use('/', require('./routes/auth'));
 app.use('/forum', require('./routes/forum'));
-app.use('/admin', require('./routes/admin'));
 
 // Start
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
